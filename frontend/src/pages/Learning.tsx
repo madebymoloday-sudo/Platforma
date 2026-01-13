@@ -121,7 +121,7 @@ export default function Learning() {
     try {
       await api.post('/learning/categories', categoryFormData);
       setShowCategoryForm(false);
-      setCategoryFormData({ name: '', description: '', color: '#6366f1' });
+      setCategoryFormData({ name: '', description: '', color: '#6366f1', image: '' });
       loadCategories();
     } catch (error: any) {
       alert(error.response?.data?.error || 'Ошибка создания категории');

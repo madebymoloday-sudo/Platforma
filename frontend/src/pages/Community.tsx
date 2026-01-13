@@ -27,6 +27,7 @@ export default function Community() {
   const [editing, setEditing] = useState<Report | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const [, setLoading] = useState(true);
   const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({
@@ -49,6 +50,8 @@ export default function Community() {
       setReports(response.data);
     } catch (error) {
       console.error('Error loading reports:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

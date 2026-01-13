@@ -164,6 +164,7 @@ export default function Chat() {
         conferenceId={activeConference}
         onClose={() => {
           setActiveConference(null);
+          api.post(`/conference/${activeConference}/leave`);
         }}
       />
     );

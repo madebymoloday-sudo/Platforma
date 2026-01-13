@@ -92,11 +92,10 @@ npx prisma migrate deploy
 
 1. В сервисе **Backend** → **"Variables"**
 2. Найдите переменную **`FRONTEND_URL`**
-3. Измените её значение на URL вашего Frontend (из Шага 4.2):
+3. Измените её значение на URL вашего Frontend:
    ```
-   FRONTEND_URL=https://platforma-frontend-production.up.railway.app
+   FRONTEND_URL=https://frontend-production-559d.up.railway.app
    ```
-   (замените на ваш реальный URL)
 
 ### 5.2. Настроить Frontend:
 
