@@ -27,7 +27,6 @@ export default function Community() {
   const [editing, setEditing] = useState<Report | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
-  // const [loading, setLoading] = useState(true); // Not used currently
   const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({

@@ -44,7 +44,6 @@ export default function Leisure() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Leisure | null>(null);
   const [filterType, setFilterType] = useState<string>('');
-  // const [loading, setLoading] = useState(true); // Not used currently
   const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({
