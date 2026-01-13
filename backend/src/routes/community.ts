@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticate, AuthRequest } from '../middleware/auth';
-import prisma from '../../prisma/client';
+import prisma from '../lib/prisma';
 import OpenAI from 'openai';
 
 const router = express.Router();
