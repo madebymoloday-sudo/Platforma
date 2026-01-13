@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
+import { execSync } from 'child_process';
 
 import authRoutes from './routes/auth';
 import learningRoutes from './routes/learning';
@@ -15,6 +16,18 @@ import leisureRoutes from './routes/leisure';
 import conferenceRoutes from './routes/conference';
 
 dotenv.config();
+
+// Автоматическое выполнение миграций при старте (только в production)
+if (process.env.NODE_ENV === 'production') {
+  try {
+    console.log('🔄 Running database migrations...');
+    execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+    console.log('✅ Migrations completed successfully');
+  } catch (error) {
+    console.error('❌ Migration failed:', error);
+    // Не останавливаем сервер, если миграции уже применены
+  }
+}
 
 const app = express();
 const httpServer = createServer(app);
@@ -91,6 +104,7 @@ app.get('/api/health', (req, res) => {
 
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export { io };
