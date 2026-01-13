@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api/client';
-import { Plus, Send, Phone, Video, Users } from 'lucide-react';
+import { Plus, Send, Users } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { io, Socket } from 'socket.io-client';
 import Conference from '../components/Conference';
@@ -38,6 +38,9 @@ export default function Chat() {
   const [showCreateChat, setShowCreateChat] = useState(false);
   const [newChatName, setNewChatName] = useState('');
   const [newChatType, setNewChatType] = useState<'group' | 'private'>('group');
+  const [showCreateConference, setShowCreateConference] = useState(false);
+  const [newConferenceTitle, setNewConferenceTitle] = useState('');
+  const [activeConference, setActiveConference] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuthStore();
 
@@ -161,7 +164,6 @@ export default function Chat() {
         conferenceId={activeConference}
         onClose={() => {
           setActiveConference(null);
-          api.post(`/conference/${activeConference}/leave`);
         }}
       />
     );

@@ -44,7 +44,6 @@ export default function Leisure() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Leisure | null>(null);
   const [filterType, setFilterType] = useState<string>('');
-  const [loading, setLoading] = useState(true);
   const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({
@@ -72,8 +71,6 @@ export default function Leisure() {
       setItems(response.data);
     } catch (error) {
       console.error('Error loading items:', error);
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -4,8 +4,8 @@ import { io, Socket } from 'socket.io-client';
 import { useAuthStore } from '../store/authStore';
 import { 
   Mic, MicOff, Video, VideoOff, Monitor, Square, 
-  MessageCircle, Send, Smile, X, Copy, Check,
-  FileText, Bot, User
+  MessageCircle, Send, X, Copy, Check,
+  FileText, Bot
 } from 'lucide-react';
 
 interface Conference {
