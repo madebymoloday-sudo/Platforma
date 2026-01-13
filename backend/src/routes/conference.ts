@@ -1,7 +1,7 @@
 import express from 'express';
 import { authenticate, AuthRequest } from '../middleware/auth';
 import prisma from '../../prisma/client';
-import { randomBytes } from 'crypto';
+import crypto from 'crypto';
 import OpenAI from 'openai';
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.post('/', authenticate, async (req: AuthRequest, res) => {
     const userId = req.userId!;
     const { chatId, title } = req.body;
 
-    const link = randomBytes(6).toString('hex');
+    const link = crypto.randomBytes(6).toString('hex');
 
     const conference = await prisma.conference.create({
       data: {
