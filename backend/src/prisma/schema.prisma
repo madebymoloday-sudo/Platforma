@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  learningProgress LearningProgress[]
+  workspaceItems  WorkspaceItem[]
+  reports         Report[]
+  chatMessages    ChatMessage[]
+  chatMembers     ChatMember[]
+  stories         Story[]
+}
+
+model LearningContent {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  type        String
+  content     String
+  images      String[]
+  audioUrl    String?
+  videoUrl    String?
+  category    String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  progress    LearningProgress[]
+}
+
+model LearningProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  contentId String
+  completed Boolean  @default(false)
+  progress  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content LearningContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, contentId])
+}
+
+model WorkspaceItem {
+  id          String   @id @default(uuid())
+  userId      String
+  type        String
+  title       String
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model Report {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String?
+  content     String
+  isPublic    Boolean  @default(false)
+  images      String[]
+  videos      String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isPublic])
+  @@index([createdAt])
+}
+
+model ReportForm {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  fields    String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+  name      String?
+  type      String   @default("private")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  members ChatMember[]
+  messages ChatMessage[]
+}
+
+model ChatMember {
+  id        String   @id @default(uuid())
+  chatId    String
+  userId    String
+  role      String   @default("member")
+  joinedAt DateTime @default(now())
+  
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([chatId, userId])
+  @@index([userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  chatId    String
+  userId    String
+  content   String?
+  type      String   @default("text")
+  mediaUrl  String?
+  createdAt DateTime @default(now())
+  
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([chatId, createdAt])
+}
+
+model Story {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String
+  type      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, expiresAt])
+}
