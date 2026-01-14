@@ -106,7 +106,7 @@ export default function Conference({ conferenceId, onClose }: { conferenceId: st
   };
 
   const initializeSocket = () => {
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001';
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL.replace('/api', '') || 'http://localhost:3001';
     const socket = io(socketUrl);
     socketRef.current = socket;
 
