@@ -47,7 +47,7 @@ export default function Chat() {
   useEffect(() => {
     loadChats();
     
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL.replace('/api', '') || 'http://localhost:3001';
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || (import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001');
     const newSocket = io(socketUrl);
     setSocket(newSocket);
 
